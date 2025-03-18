@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/site.css" />
+    <script>
+        let initialTheme = {};
+        try {
+            const savedColors = localStorage.getItem('themeColors');
+            if (savedColors) {
+                initialTheme = JSON.parse(savedColors);
+            }
+        } catch (e) {
+            console.error('Error loading theme data:', e);
+        }
+
+        if (Object.keys(initialTheme).length > 0) {
+            const styleTag = document.createElement('style');
+            styleTag.innerHTML = `
+            :root {
+                --prime-color: ${initialTheme.primeColor};
+                --secondary-color: ${initialTheme.secColor};
+                --back-color: ${initialTheme.backColor};
+                --text-color: ${initialTheme.textColor};
+                --highlight: ${initialTheme.highColor};
+                --footer: ${initialTheme.footer};
+            }
+        `;
+            document.head.appendChild(styleTag);
+        }
+        let cachedTheme = null;
+
+        function loadTheme() {
+            if (!cachedTheme) {
+                const savedColors = localStorage.getItem('themeColors');
+                if (savedColors) {
+                    cachedTheme = JSON.parse(savedColors);
+                    applyColors(cachedTheme);
+                }
+            } else {
+                applyColors(cachedTheme);
+            }
+        }
+
+        function applyColors(colors) {
+            document.documentElement.style.setProperty('--prime-color', colors.primeColor);
+            document.documentElement.style.setProperty('--secondary-color', colors.secColor);
+            document.documentElement.style.setProperty('--back-color', colors.backColor);
+            document.documentElement.style.setProperty('--text-color', colors.textColor);
+            document.documentElement.style.setProperty('--highlight', colors.highColor);
+            document.documentElement.style.setProperty('--footer', colors.footer);
+        }
+
+        window.onload = loadTheme;
+    </script>
+</head>
+
+<body>
+    <div class="content-back">
+        <div class="navbar">
+            <a href="/" class="navbar-brand">Coaster Search</a>
+            <a href="{{ url_for('home') }}" class="navbar-item">Home</a>
+            <a href="{{ url_for('search') }}" class="navbar-item">Search Coasters</a>
+            <a href="{{ url_for('list') }}" class="navbar-item">List</a>
+            <a href="{{ url_for('customize') }}" class="navbar-item">Customize</a>
+
+        </div>
+        <div class="body-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="footer">
+            <hr />
+            <footer>
+                <p>Ethan Ossana &copy; 2024</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

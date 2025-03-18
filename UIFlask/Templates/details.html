@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="content">
+        <div class="title">{{coaster.name}}</div>
+
+        <div class="tag">
+            {% if coaster.materialType %}
+            {{ coaster.materialType.name }}
+            {% else %}
+            Material type not available
+            {% endif %}
+        </div>
+
+        <div class="info-box">
+            <div>Height: {% if coaster.height %}{{ coaster.height }}{% else %}N/A{% endif %}</div>
+            <div>Length: {% if coaster.length %}{{ coaster.length }}{% else %}N/A{% endif %}</div>
+            <div>Top Speed: {% if coaster.speed %}{{ coaster.speed }}{% else %}N/A{% endif %}</div>
+            <div>Train: {% if coaster.seatingType %}{{ coaster.seatingType.name }}{% else %}Seating type not available{% endif %}</div>
+        </div>
+
+        <div class="details">
+            <p>
+                Country: {% if coaster.park and coaster.park.country %}
+                {{ coaster.park.country.name }}
+                {% else %}
+                Country not available
+                {% endif %}
+            </p>
+            <p>
+                Park: {% if coaster.park %}
+                {{ coaster.park.name }}
+                {% else %}
+                Park not available
+                {% endif %}
+            </p>
+            <p>
+                Manufacturer: {% if coaster.manufacturer %}
+                {{ coaster.manufacturer.name }}
+                {% else %}
+                Manufacturer not available
+                {% endif %}
+            </p>
+            <p>
+                Status: {% if coaster.status %}
+                {{ coaster.status.name }}
+                {% else %}
+                Status not available
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="button-group">
+            <button class="button green"id="personal">Add Personal Notes</button>
+            <button class="button dark-green"id="list">Add to List</button>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <!--<img src="{{coaster.img}}" alt="{{coaster.name}}">
+            -->
+    </div>
+</div>
+<script>
+    const add = document.getElementById('list');
+    add.addEventListener('click', function () {
+        const coasterData = {
+            id: parseInt("{{ coaster.get('id', 0) | int }}"),
+            name: "{{ coaster.get('name', 'Unknown Coaster') }}",
+            material: "{{ coaster.get('materialType', {}).get('name', 'Unknown Material') }}",
+            height: "{{ coaster.get('height', 'Unknown Height') }}",
+            length: "{{ coaster.get('length', 'Unknown Length') }}",
+            speed: "{{ coaster.get('speed', 'Unknown Speed') }}",
+            seating: "{{ coaster.get('seatingType', {}).get('name', 'Unknown Seating') }}",
+            country: "{{ coaster.get('park', {}).get('country', {}).get('name', 'Unknown Country') }}",
+            park: "{{ coaster.get('park', {}).get('name', 'Unknown Park') }}",
+            manufacturer: "{{ coaster.get('manufacturer', {}).get('name', 'Unknown Manufacturer') }}",
+            status: "{{ coaster.get('status', {}).get('name', 'Unknown Status') }}"
+        }
+        fetch("/saveCoaster", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(coasterData)
+        })
+    });
+
+</script>
+
+{% endblock %}

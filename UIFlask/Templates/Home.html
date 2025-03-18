@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="description">Welcome to the Coaster Searching app! Here you can search for coasters. View the details and stats for each individual coaster, including the location and parks!</h1>
+<div class="card-holder" method="POST">
+        {% for coaster in coasters %}
+        <a href="{{ url_for('details', coaster_id=coaster['id'] if coaster['id'] else 0) }}" class="card">
+            <!--<img src="{{img}}" alt="{{coaster.name}}" />
+                -->
+            <div class="card-content">
+                <div class="card-title"> {{coaster.name}} </div>
+                <div class="card-stat">
+                    {% if coaster.status %}
+                    {{ coaster.status.name }}
+                    {% else %}
+                    Status not available
+                    {% endif %}
+                </div>
+                <div class="card-park">
+                    Park: {% if coaster.park %}
+                    {{ coaster.park.name }}
+                    {% else %}
+                    Park not available
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {%endfor%}
+    
+</div>
+
+{% endblock %}

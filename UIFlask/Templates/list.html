@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="description">Welcome to your List. If you find a coaster, you can add it to this list and review them later.</h1>
+<div class="card-holder" method="POST">
+        {% for coaster in coasters %}
+        <a href="{{ url_for('listDetails', coaster_id=coaster.id) }}" class="card">
+            <!--<img src="{{img}}" alt="{{coaster.name}}" />
+                -->
+            <div class="card-content">
+                <div class="card-title"> {{coaster.name}} </div>
+                <div class="card-stat"> {{coaster.status}} </div>
+                <div class="card-park"> {{coaster.park}} </div>
+            </div>
+        </a>
+        {%endfor%}
+    
+</div>
+
+{% endblock %}

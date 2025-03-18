@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="content">
+        <div class="title">{{coaster.name}}</div>
+        <div class="tag">{{coaster.name}}</div>
+
+        <div class="info-box">
+            <div>Height: {% if coaster.height %}{{ coaster.height }}{% else %}N/A{% endif %}</div>
+            <div>Length: {% if coaster.length %}{{ coaster.length }}{% else %}N/A{% endif %}</div>
+            <div>Top Speed: {% if coaster.speed %}{{ coaster.speed }}{% else %}N/A{% endif %}</div>
+            <div>Train: {% if coaster.seatingType %}{{ coaster.seatingType.name }}{% else %}Seating type not available{% endif %}</div>
+        </div>
+
+        <div class="details">
+            <p>
+                Country: {% if coaster.park and coaster.park.country %}
+                {{ coaster.park.country.name }}
+                {% else %}
+                Country not available
+                {% endif %}
+            </p>
+            <p>
+                Park: {% if coaster.park %}
+                {{ coaster.park.name }}
+                {% else %}
+                Park not available
+                {% endif %}
+            </p>
+            <p>
+                Manufacturer: {% if coaster.manufacturer %}
+                {{ coaster.manufacturer.name }}
+                {% else %}
+                Manufacturer not available
+                {% endif %}
+            </p>
+            <p>
+                Status: {% if coaster.status %}
+                {{ coaster.status.name }}
+                {% else %}
+                Status not available
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="button-group">
+            <button class="button green"id="personal">Add Personal Notes</button>
+            <button class="button red"id="list">Remove From List</button>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <!--<img src="{{coaster.img}}" alt="{{coaster.name}}">
+            -->
+    </div>
+</div>
+<script>
+    const add = document.getElementById('list');
+    add.addEventListener('click', function () {
+        //const coasterId = this.getAttribute("data-coaster-id");
+        fetch("/removeCoaster/{{coaster.id}}", {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            
+        })
+    });
+
+</script>
+
+{% endblock %}

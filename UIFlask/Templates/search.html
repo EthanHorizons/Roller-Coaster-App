@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="search-bar">
+    
+    <form action="{{ url_for('search') }}" method="get" class="search-box">
+        <input placeholder="Search Coasters" type="text" name="n" id="filter" class="search-input">
+        <button type="submit" id="search">Search</button>
+    </form>
+    <button id="help">Help</button>
+
+</div>
+<div class="card-holder" method="POST">
+    {% for coaster in coasters %}
+    <a href="{{ url_for('details', coaster_id=coaster.id) }}" class="card">
+        <!--<img src="{{coaster.img}}" alt="{{coaster.name}}" />
+            -->
+        <div class="card-content">
+            <div class="card-title"> {{coaster.name}} </div>
+            <div class="card-stat"> {{coaster.status.name}} </div>
+            <div class="card-park"> {{coaster.park.name}} </div>
+        </div>
+    </a>
+    {%endfor%}
+</div>
+
+
+
+<script>
+    const help = document.getElementById('help');
+    help.addEventListener('click', function () {
+        alert("Use the search bar to find a specific named coaster, be careful if you search again after finding the details, it will have to be found again");
+        console.log('Response from Flask:', data);
+    });
+
+    const search = document.getElementById('filter');
+</script>
+{% endblock %}

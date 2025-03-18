@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="description">Use this page to customize the look. Pick from select themes!</h1>
+<div class="menu-box">
+    <h2 class="theme-title">Themes:</h2>
+    <div class="theme-box">
+        <button onclick="setTheme('oceans')" class="theme">
+            <p class="theme-name">Oceans:</p>
+            <div class="color" id="prime1"></div>
+            <div class="color" id="sec1"></div>
+            <div class="color" id="back1"></div>
+        </button>
+        <button onclick="setTheme('dark')" class="theme">
+            <p class="theme-name">Dark:</p>
+            <div class="color" id="prime2"></div>
+            <div class="color" id="sec2"></div>
+            <div class="color" id="back2"></div>
+        </button>
+        <button onclick="setTheme('violet')" class="theme">
+            <p class="theme-name">Violet:</p>
+            <div class="color" id="prime3"></div>
+            <div class="color" id="sec3"></div>
+            <div class="color" id="back3"></div>
+        </button>
+        <button onclick="setTheme('ember')" class="theme">
+            <p class="theme-name">Ember:</p>
+            <div class="color" id="prime4"></div>
+            <div class="color" id="sec4"></div>
+            <div class="color" id="back4"></div>
+        </button>
+        <button onclick="setTheme('night')" class="theme">
+            <p class="theme-name">Twilight:</p>
+            <div class="color" id="prime5"></div>
+            <div class="color" id="sec5"></div>
+            <div class="color" id="back5"></div>
+        </button>
+        <button class="random" onclick="setRandTheme()">Random</button>
+        <button class="random" onclick="resetTheme()">Reset Theme</button>
+    </div>
+
+</div>
+<script>
+    function setRandTheme() {
+        fetch("/randomColor")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Couldnt connect')
+                }
+                return response.json()
+            })
+            .then(data => {
+                console.log(data);
+                localStorage.setItem('themeColors', JSON.stringify(data));
+                applyColors(data);
+                console.log('setRand function called!');
+                const savedColors = localStorage.getItem('themeColors')
+            });
+    }
+    function setTheme(theme) {
+        const themes = {
+            oceans: {
+                primeColor: '#1e3a8a',
+                secColor: '#10b981',
+                backColor: '#48937a',
+                textColor: '#d1fae5',
+                highColor: '#6ee7b7',
+                footer: 'black',
+            },
+            dark: {
+                primeColor: '#123545',
+                secColor: '#060c25',
+                backColor: 'black',
+                textColor: '#fffcfc',
+                highColor: '#ffa6a6',
+                footer: 'white',
+            },
+            violet: {
+                primeColor: '#8a1e69',
+                secColor: '#d95470',
+                backColor: '#b36f84',
+                textColor: '#ffffff',
+                highColor: '#f13fff',
+                footer: 'black',
+            },
+            ember: {
+                primeColor: '#5d0000',
+                secColor: '#FF5722',
+                backColor: '#990000',
+                textColor: '#ffd5b6',
+                highColor: '#ff5000',
+                footer: 'black',
+            },
+            night: {
+                primeColor: '#1f0049',
+                secColor: '#3f0f00',
+                backColor: '#250053',
+                textColor: '#efe7fd',
+                highColor: '#ca7aff',
+                footer: 'white',
+            }
+        };
+
+        if (themes[theme]) {
+            localStorage.setItem('themeColors', JSON.stringify(themes[theme]));
+            applyColors(themes[theme]);
+            console.log('setTheme function called!');
+            const savedColors = localStorage.getItem('themeColors');
+            console.log('Loaded theme from localStorage:', savedColors);
+        }
+    }
+    function resetTheme() {
+        localStorage.removeItem('themeColors');
+        location.reload();
+    }
+</script>
+{% endblock %}

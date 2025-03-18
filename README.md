@@ -15,7 +15,7 @@ This handle all interactions with the API. Grabs the data, and serves it to the 
 This allows the main program to retireve a random set of colors. Microservice calculates appropriate colors that work well together.
 ![image](https://github.com/user-attachments/assets/2e52e140-ac25-4e28-a8ed-65f6df84f6a7)
 ![image](https://github.com/user-attachments/assets/ddcfd5cf-f71c-4d06-8388-34e94e300ca3)
-![image](https://github.com/user-attachments/assets/41b87f79-8fc6-4702-a01b-1d28344e2a87)
+![image](https://github.com/user-attachments/assets/df9be84b-2476-4c80-9225-45e43958894c)
 ### String Correction Microservice
 Changes the "operating" string to better format on the UI.
 ### Random Number Microservice
